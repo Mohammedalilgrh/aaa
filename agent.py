@@ -4715,7 +4715,7 @@ def create_advanced_fallback_response(user_input):
     
     # Handle network operations
     elif any(word in user_lower for word in ["network", "wifi", "internet", "connect"]):
-        return f'[{{"tool": "get_network_info", "params": }}}]'
+        return f'[{{"tool": "get_network_info", "params": {{}}}}]'
     
     # Handle power operations
     elif any(word in user_lower for word in ["shutdown", "restart", "sleep", "lock"]):
