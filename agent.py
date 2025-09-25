@@ -14,7 +14,7 @@ def install_packages():
         import selenium, google.generativeai, webdriver_manager, pyautogui
     except ImportError:
         print("[!] Installing required packages... (This may take 1-2 minutes)")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "selenium", "google-generativeai", "webdriver-manager", "pyautogui", "Pillow"])
         print("[✓] All packages installed successfully!\n")
         # Reload modules
         globals()['selenium'] = __import__('selenium')
@@ -75,28 +75,25 @@ def init_browser():
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     
-    
     # Use ONLY custom driver — no fallback!
-custom_driver = r"C:\deepseek\New folder\chromedriver.exe"
-if os.path.exists(custom_driver):
-    service = Service(executable_path=custom_driver)
-    driver = webdriver.Chrome(service=service, options=options)
-    log("[✓] Using custom 64-bit ChromeDriver")
-    return None
-else:
-    log("[ERROR] Custom ChromeDriver NOT FOUND at C:\\deepseek\\New folder\\chromedriver.exe")
-    log("Please download chromedriver-win64.zip and place chromedriver.exe there!")
-    return None
-    
-    # Fallback to auto-managed driver
-    try:
-        service = Service(ChromeDriverManager().install())
+    custom_driver = r"C:\deepseek\New folder\chromedriver.exe"
+    if os.path.exists(custom_driver):
+        service = Service(executable_path=custom_driver)
         driver = webdriver.Chrome(service=service, options=options)
-        log("[✓] Browser started with auto-managed ChromeDriver")
+        log("[✓] Using custom 64-bit ChromeDriver")
         return driver
-    except Exception as e:
-        log(f"[ERROR] Failed to start browser: {e}")
-        return None
+    else:
+        log("[ERROR] Custom ChromeDriver NOT FOUND at C:\\deepseek\\New folder\\chromedriver.exe")
+        log("Please download chromedriver-win64.zip and place chromedriver.exe there!")
+        # Fallback to auto-managed driver
+        try:
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+            log("[✓] Browser started with auto-managed ChromeDriver")
+            return driver
+        except Exception as e:
+            log(f"[ERROR] Failed to start browser: {e}")
+            return None
 
 # Global state
 driver = None
