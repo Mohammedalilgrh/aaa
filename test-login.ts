@@ -6,7 +6,7 @@ async function testLogin() {
     default: {
       provider: "anthropic",
       model: "claude-sonnet-4-20250514",
-      apiKey: "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",
+      apiKey: "",
       config: {
         baseURL: "https://api.anthropic.com/v1",
       },
